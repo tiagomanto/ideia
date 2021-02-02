@@ -6,6 +6,10 @@ async function tempo(request, response) {
   const subscribersResponseJson = await subscribersResponse.json();
   const inscritos = subscribersResponseJson.total_subscribers;
 
+  //cria um cache no servidor com o minimo 10 segundos e responde 
+  //as requests instantaneamente enquanto a vercel atualiza o cache apos 10 segundos
+  response.setHeader('Cache-Control','s-maxage=10, stale-while-revalidate');
+
   response.json({
       date: dynamicDate.toGMTString(),
       inscritos: inscritos
